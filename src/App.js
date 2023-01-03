@@ -5,6 +5,7 @@ import "./App.css";
 
 // components
 import Board from "./components/Board";
+import GameOver from "./components/GameOver";
 import Keyboard from "./components/Keyboard";
 import { defaultBoard, generateWordSet } from "./helpers/words";
 
@@ -17,16 +18,30 @@ function App() {
     letterPosition: 0,
   });
   const [wordSet, setWordSet] = useState(new Set());
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [gameOver, setGameOver] = useState({
+    isGameOver: false,
+    guessedTheRightWord: false,
+  });
+  const [word, setWord] = useState("");
 
   useEffect(() => {
     generateWordSet().then((result) => {
       setWordSet(result.wordSet);
+      setWord(result.todaysWord);
+      console.log(result?.todaysWord?.length);
+      console.log(result?.todaysWord);
+      const board = [];
+      for (let i = 0; i < 6; i++) {
+        const row = [];
+        for (let j = 0; j < result?.todaysWord?.trim().length; j++) {
+          row.push("");
+        }
+        board.push(row);
+      }
+      setBoard(board);
     });
-  }, []);
-
-  console.log(wordSet);
-
-  const word = "AUDIO";
+  }, [word.length]);
 
   const onSelectLetter = (keyValue) => {
     if (
@@ -61,6 +76,7 @@ function App() {
 
     for (let i = 0; i < board[currentAttempt.attempt].length; i++) {
       currentWord += board[currentAttempt.attempt][i];
+      currentWord.toLowerCase();
     }
     if (wordSet.has(`${currentWord.toLowerCase()}\r`)) {
       setCurrentAttempt({
@@ -71,11 +87,23 @@ function App() {
       alert("Invalid word");
     }
 
-    if (word === currentWord) {
-      alert("You win");
+    if (word.toLowerCase().trim() === currentWord.toLowerCase().trim()) {
+      console.log("you win");
+
+      setGameOver({
+        isGameOver: true,
+        guessedTheRightWord: true,
+      });
+      return;
     }
 
-    
+    if (currentAttempt.attempt === board.length - 1) {
+      setGameOver({
+        isGameOver: true,
+        guessedTheRightWord: false,
+      });
+      return;
+    }
   };
 
   return (
@@ -93,11 +121,15 @@ function App() {
           onDeleteLetter,
           onEnterLetter,
           word,
+          disabledLetters,
+          setDisabledLetters,
+          gameOver,
+          setGameOver,
         }}
       >
         <div className="game">
           <Board />
-          <Keyboard />
+          {gameOver.isGameOver ? <GameOver /> : <Keyboard />}
         </div>
       </GameContext.Provider>
     </div>

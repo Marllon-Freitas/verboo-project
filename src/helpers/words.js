@@ -1,14 +1,5 @@
 import wordBank from "./words-wordle.txt";
 
-export const defaultBoard = [
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-];
-
 export const generateWordSet = async () => {
   let wordSet;
   let todaysWord;
@@ -21,3 +12,13 @@ export const generateWordSet = async () => {
     });
   return { wordSet, todaysWord };
 };
+
+export const defaultBoard = [
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+];
+

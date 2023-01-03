@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { GameContext } from "../../App";
 
-function Key({ keyValue, isBigKey }) {
+function Key({ keyValue, isBigKey, isDisabled }) {
   const {
     onSelectLetter,
     onDeleteLetter,
@@ -19,7 +19,7 @@ function Key({ keyValue, isBigKey }) {
   };
 
   return (
-    <div className="key" id={isBigKey ? "big" : ""} onClick={selectLetter}>
+    <div className="key" id={isBigKey ? "big" : isDisabled && "disabled"} onClick={selectLetter}>
       {" "}
       {keyValue}
     </div>
