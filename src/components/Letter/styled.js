@@ -10,6 +10,11 @@ export const LetterWrapper = styled.div`
   font-size: 30px;
   font-weight: bolder;
   color: var(--primary-color);
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+
+  ${(props) =>
+    props.letter !== "" ? "animation: 0.5s ease-in-out bounce;" : ""}
 
   background-color: ${(props) => {
     switch (props.id) {
@@ -25,18 +30,25 @@ export const LetterWrapper = styled.div`
   }};
 
   animation: ${(props) => {
-      switch (props.id) {
-        case "correct":
-          return "0.75s ease-in-out 0s 1 normal none flip";
-        case "almost":
-          return "0.75s ease-in-out 0s 1 normal none flip";
-        case "error":
-          return "0.75s ease-in-out 0s 1 normal none flip";
-        default:
-          return "none";
-      }
-    }};
-  animation-delay: ${(props) => props.animationDelay}s;
+    switch (props.id) {
+      case "correct":
+        return "0.75s ease-in-out 0s 1 normal none flip";
+      case "almost":
+        return "0.75s ease-in-out 0s 1 normal none flip";
+      case "error":
+        return "0.75s ease-in-out 0s 1 normal none flip";
+      default:
+        return "";
+    }
+  }};
+
+  animation-delay: ${(props) => {
+    if (props.id) {
+      return `${props.animationDelay}s;`;
+    } else {
+      return "";
+    }
+  }};
 
   @keyframes flip {
     0% {
@@ -50,6 +62,18 @@ export const LetterWrapper = styled.div`
     }
     100% {
       transform: rotateY(0deg);
+    }
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
     }
   }
 `;

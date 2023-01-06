@@ -32,6 +32,7 @@ function Letter({ attemptValue, letterIndex, animationDelay }) {
     <LetterWrapper
       id={letterState ? letterState : undefined}
       animationDelay={animationDelay}
+      letter={letter}
     >
       {letter}
     </LetterWrapper>
