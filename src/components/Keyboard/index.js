@@ -48,18 +48,30 @@ function Keyboard() {
     <div className="keyboard" onKeyDown={handleKeyBoard}>
       <div className="line1">
         {keys1.map((key) => (
-          <Key keyValue={key} isDisabled={disabledLetters.includes(key)} />
+          <Key
+            key={key}
+            keyValue={key}
+            isDisabled={disabledLetters.includes(key)}
+          />
         ))}
       </div>
       <div className="line2">
         {keys2.map((key) => (
-          <Key keyValue={key} isDisabled={disabledLetters.includes(key)} />
+          <Key
+            key={key}
+            keyValue={key}
+            isDisabled={disabledLetters.includes(key)}
+          />
         ))}
       </div>
       <div className="line3">
         <Key keyValue="ENTER" isBigKey={true} />
         {keys3.map((key) => (
-          <Key keyValue={key} isDisabled={disabledLetters.includes(key)} />
+          <Key
+            key={key}
+            keyValue={key}
+            isDisabled={disabledLetters.includes(key)}
+          />
         ))}
         <Key keyValue="DELETE" isBigKey={true} />
       </div>

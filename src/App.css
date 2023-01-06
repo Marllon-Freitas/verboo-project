@@ -36,21 +36,6 @@ nav h1 {
   flex-direction: column;
 }
 
-.board {
-  width: 450px;
-  height: 550px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-}
-
-.row {
-  flex: 33%;
-  display: flex;
-  flex-direction: row;
-  margin: 5px;
-}
-
 .letter {
   flex: 33%;
   height: 100%;
@@ -64,17 +49,6 @@ nav h1 {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#correct {
-  background-color: #528d4e;
-}
-
-#almost {
-  background-color: #b49f39;
-}
-
-#error {
-  background-color: #3a393c;
-}
 
 .keyboard {
   width: 700px;
@@ -117,11 +91,4 @@ nav h1 {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
-}
-
-#big {
-  width: 100px;
-}
-#disabled {
-  background-color: #3a393c;
 }

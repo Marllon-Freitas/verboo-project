@@ -1,5 +1,10 @@
 import { useState, createContext, useEffect } from "react";
 
+//globalStyles
+import { GlobalStyles } from "./GlobalStyles";
+
+import Loader from "./components/Loader/";
+
 // styles
 import "./App.css";
 
@@ -23,25 +28,32 @@ function App() {
     isGameOver: false,
     guessedTheRightWord: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [word, setWord] = useState("");
 
   useEffect(() => {
-    generateWordSet().then((result) => {
-      setWordSet(result.wordSet);
-      setWord(result.todaysWord);
-      console.log(result?.todaysWord?.length);
-      console.log(result?.todaysWord);
-      const board = [];
-      for (let i = 0; i < 6; i++) {
-        const row = [];
-        for (let j = 0; j < result?.todaysWord?.trim().length; j++) {
-          row.push("");
+    setIsLoading(true);
+    generateWordSet()
+      .then((result) => {
+        setWordSet(result.wordSet);
+        setWord(result.todaysWord);
+        const board = [];
+        for (let i = 0; i < 6; i++) {
+          const row = [];
+          for (let j = 0; j < result?.todaysWord?.trim().length; j++) {
+            row.push("");
+          }
+          board.push(row);
         }
-        board.push(row);
-      }
-      setBoard(board);
-    });
-  }, [word.length]);
+        setBoard(board);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const onSelectLetter = (keyValue) => {
     if (
@@ -78,11 +90,20 @@ function App() {
       currentWord += board[currentAttempt.attempt][i];
       currentWord.toLowerCase();
     }
-    if (wordSet.has(`${currentWord.toLowerCase()}\r`)) {
+
+    if (
+      wordSet.has(`${currentWord.toLowerCase()}\r`) &&
+      word.trim().length === currentWord.trim().length
+    ) {
       setCurrentAttempt({
         attempt: currentAttempt.attempt + 1,
         letterPosition: 0,
       });
+    } else if (
+      wordSet.has(`${currentWord.toLowerCase()}\r`) ||
+      word.trim().length === currentWord.trim().length
+    ) {
+      alert("Invalid");
     } else {
       alert("Invalid word");
     }
@@ -107,32 +128,39 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <nav>
-        <h1>Wordle</h1>
-      </nav>
-      <GameContext.Provider
-        value={{
-          board,
-          setBoard,
-          currentAttempt,
-          setCurrentAttempt,
-          onSelectLetter,
-          onDeleteLetter,
-          onEnterLetter,
-          word,
-          disabledLetters,
-          setDisabledLetters,
-          gameOver,
-          setGameOver,
-        }}
-      >
-        <div className="game">
-          <Board />
-          {gameOver.isGameOver ? <GameOver /> : <Keyboard />}
-        </div>
-      </GameContext.Provider>
-    </div>
+    <>
+      <GlobalStyles />
+      <div className="App">
+        <nav>
+          <h1>Verb.oo</h1>
+        </nav>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <GameContext.Provider
+            value={{
+              board,
+              setBoard,
+              currentAttempt,
+              setCurrentAttempt,
+              onSelectLetter,
+              onDeleteLetter,
+              onEnterLetter,
+              word,
+              disabledLetters,
+              setDisabledLetters,
+              gameOver,
+              setGameOver,
+            }}
+          >
+            <div className="game">
+              <Board />
+              {gameOver.isGameOver ? <GameOver /> : <Keyboard />}
+            </div>
+          </GameContext.Provider>
+        )}
+      </div>
+    </>
   );
 }
 

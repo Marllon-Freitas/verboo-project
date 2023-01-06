@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import { GameContext } from "../../App";
 
+import { KeyWrapper } from "./styled";
+
 function Key({ keyValue, isBigKey, isDisabled }) {
-  const {
-    onSelectLetter,
-    onDeleteLetter,
-    onEnterLetter,
-  } = useContext(GameContext);
+  const { onSelectLetter, onDeleteLetter, onEnterLetter } =
+    useContext(GameContext);
 
   const selectLetter = () => {
     if (keyValue === "ENTER") {
@@ -19,10 +18,14 @@ function Key({ keyValue, isBigKey, isDisabled }) {
   };
 
   return (
-    <div className="key" id={isBigKey ? "big" : isDisabled && "disabled"} onClick={selectLetter}>
+    <KeyWrapper
+      isDisabled={isDisabled}
+      isBigKey={isBigKey}
+      onClick={selectLetter}
+    >
       {" "}
       {keyValue}
-    </div>
+    </KeyWrapper>
   );
 }
 
