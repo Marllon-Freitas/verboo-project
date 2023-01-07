@@ -30,6 +30,9 @@ function App() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [word, setWord] = useState("");
+  const [actualBoardIndex, setActualBoardIndex] = useState(0);
+  const [isToShowWrongAttemptAnimation, setIsToShowWrongAttemptAnimation] =
+    useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -99,13 +102,14 @@ function App() {
         attempt: currentAttempt.attempt + 1,
         letterPosition: 0,
       });
+      setActualBoardIndex(currentAttempt.attempt + 1);
     } else if (
       wordSet.has(`${currentWord.toLowerCase()}\r`) ||
       word.trim().length === currentWord.trim().length
     ) {
-      alert("Invalid");
+      handleWrongAttempt();
     } else {
-      alert("Invalid word");
+      handleWrongAttempt();
     }
 
     if (word.toLowerCase().trim() === currentWord.toLowerCase().trim()) {
@@ -125,6 +129,13 @@ function App() {
       });
       return;
     }
+  };
+
+  const handleWrongAttempt = () => {
+    setIsToShowWrongAttemptAnimation(true);
+    setTimeout(() => {
+      setIsToShowWrongAttemptAnimation(false);
+    }, 500);
   };
 
   return (
@@ -151,6 +162,8 @@ function App() {
               setDisabledLetters,
               gameOver,
               setGameOver,
+              actualBoardIndex,
+              isToShowWrongAttemptAnimation,
             }}
           >
             <div className="game">

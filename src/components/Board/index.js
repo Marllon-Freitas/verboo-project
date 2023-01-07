@@ -5,13 +5,19 @@ import Letter from "../Letter";
 import { Row, BoardWrapper } from "./styled";
 
 function Board() {
-  const { board } = useContext(GameContext);
+  const { board, actualBoardIndex, isToShowWrongAttemptAnimation } =
+    useContext(GameContext);
 
   return (
     <BoardWrapper>
       {board?.map((row, rowIndex) => {
         return (
-          <Row key={rowIndex}>
+          <Row
+            rowIndex={rowIndex}
+            key={rowIndex}
+            actualBoardIndex={actualBoardIndex}
+            isToShowWrongAttemptAnimation={isToShowWrongAttemptAnimation}
+          >
             {row.map((letter, letterIndex) => {
               return (
                 <Letter

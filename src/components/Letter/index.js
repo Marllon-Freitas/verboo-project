@@ -15,7 +15,7 @@ function Letter({ attemptValue, letterIndex, animationDelay }) {
     !isCorrect &&
     letter &&
     word.toUpperCase().includes(letter) &&
-    !word.slice(0, letterIndex).includes(letter);
+    !word[letterIndex].includes(letter);
 
   useEffect(() => {
     if (letter !== "" && !isCorrect && !almost) {
