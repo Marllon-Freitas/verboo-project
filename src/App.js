@@ -10,9 +10,9 @@ import "./App.css";
 
 // components
 import Board from "./components/Board";
-import GameOver from "./components/GameOver";
 import Keyboard from "./components/Keyboard";
 import { defaultBoard, generateWordSet } from "./helpers/words";
+import Modal from "./components/Modal/Modal";
 
 export const GameContext = createContext();
 
@@ -31,6 +31,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [word, setWord] = useState("");
   const [actualBoardIndex, setActualBoardIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   const [isToShowWrongAttemptAnimation, setIsToShowWrongAttemptAnimation] =
     useState(false);
 
@@ -40,6 +41,7 @@ function App() {
       .then((result) => {
         setWordSet(result.wordSet);
         setWord(result.todaysWord);
+        console.log(result.todaysWord);
         const board = [];
         for (let i = 0; i < 6; i++) {
           const row = [];
@@ -113,8 +115,7 @@ function App() {
     }
 
     if (word.toLowerCase().trim() === currentWord.toLowerCase().trim()) {
-      console.log("you win");
-
+      handleOpenModal();
       setGameOver({
         isGameOver: true,
         guessedTheRightWord: true,
@@ -123,6 +124,7 @@ function App() {
     }
 
     if (currentAttempt.attempt === board.length - 1) {
+      handleOpenModal();
       setGameOver({
         isGameOver: true,
         guessedTheRightWord: false,
@@ -136,6 +138,12 @@ function App() {
     setTimeout(() => {
       setIsToShowWrongAttemptAnimation(false);
     }, 500);
+  };
+
+  const handleOpenModal = () => {
+    setTimeout(() => {
+      setShowModal(true);
+    }, 1500);
   };
 
   return (
@@ -163,12 +171,13 @@ function App() {
               gameOver,
               setGameOver,
               actualBoardIndex,
-              isToShowWrongAttemptAnimation,
+              isToShowWrongAttemptAnimation
             }}
           >
             <div className="game">
               <Board />
-              {gameOver.isGameOver ? <GameOver /> : <Keyboard />}
+              <Keyboard />
+              {showModal && <Modal setShowModal={setShowModal} />}
             </div>
           </GameContext.Provider>
         )}
