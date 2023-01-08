@@ -88,18 +88,15 @@ function App() {
 
   const onEnterLetter = () => {
     if (currentAttempt.attempt === board.length) return;
-
     let currentWord = "";
-
     for (let i = 0; i < board[currentAttempt.attempt].length; i++) {
       currentWord += board[currentAttempt.attempt][i];
       currentWord.toLowerCase();
     }
-
-    if (
+    const isValidWord =
       wordSet.has(`${currentWord.toLowerCase()}\r`) &&
-      word.trim().length === currentWord.trim().length
-    ) {
+      word.trim().length === currentWord.trim().length;
+    if (isValidWord) {
       setCurrentAttempt({
         attempt: currentAttempt.attempt + 1,
         letterPosition: 0,
@@ -123,7 +120,7 @@ function App() {
       return;
     }
 
-    if (currentAttempt.attempt === board.length - 1) {
+    if (currentAttempt.attempt === board.length - 1 && isValidWord) {
       handleOpenModal();
       setGameOver({
         isGameOver: true,
@@ -171,7 +168,7 @@ function App() {
               gameOver,
               setGameOver,
               actualBoardIndex,
-              isToShowWrongAttemptAnimation
+              isToShowWrongAttemptAnimation,
             }}
           >
             <div className="game">

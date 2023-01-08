@@ -10,7 +10,7 @@ import {
   Backdrop,
 } from "./styled";
 
-function Modal({ setShowModal }) {
+function Modal() {
   const { gameOver, currentAttempt, word } = useContext(GameContext);
 
   const handleRestartGame = () => {
