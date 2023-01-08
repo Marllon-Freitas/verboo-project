@@ -41,7 +41,6 @@ function App() {
       .then((result) => {
         setWordSet(result.wordSet);
         setWord(result.todaysWord);
-        console.log(result.todaysWord);
         const board = [];
         for (let i = 0; i < 6; i++) {
           const row = [];
